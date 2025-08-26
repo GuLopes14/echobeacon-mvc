@@ -1,7 +1,5 @@
 package br.com.echobeacon.model;
 
-import java.time.LocalDate;
-
 import br.com.echobeacon.model.enums.Modelo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,7 +34,7 @@ public class Moto {
     @Size(min = 17, max = 17, message = "O campo 'chassi' deve ter 17 caracteres")
     private String chassi;
 
-    @NotBlank(message = "O campo 'modelo' é obrigatório")
+    @NotNull(message = "O campo 'modelo' é obrigatório")
     private Modelo modelo;
 
     @NotBlank(message = "O campo problema é obrigatório")
@@ -46,8 +44,4 @@ public class Moto {
     @OneToOne
     @JoinColumn(name = "echo_beacon_id", referencedColumnName = "id")
     private EchoBeacon echoBeacon;
-
-    @NotBlank(message = "O campo 'dataRegistro' é obrigatório")
-    @PastOrPresent(message = "O campo 'dataRegistro' deve ser uma data passada ou presente")
-    private LocalDate dataRegistro;
 }
