@@ -1,12 +1,7 @@
 package br.com.echobeacon.model;
 
 import br.com.echobeacon.model.enums.Modelo;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -34,6 +29,7 @@ public class Moto {
     @Size(min = 17, max = 17, message = "O campo 'chassi' deve ter 17 caracteres")
     private String chassi;
 
+    @Enumerated(EnumType.STRING)
     @NotNull(message = "O campo 'modelo' é obrigatório")
     private Modelo modelo;
 
