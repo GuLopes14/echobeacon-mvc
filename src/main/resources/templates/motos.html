@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Motos a trabalhar</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+  <body class="bg-stone-950 min-h-screen flex flex-col items-center">
+    <header
+      class="fixed top-0 left-0 w-full bg-stone-900 flex justify-around py-4 z-10 shadow"
+    >
+      <a
+        href="/home"
+        class="text-lg text-white font-bold hover:text-lime-600 transition"
+        >Início</a
+      >
+      <a
+        href="/motos"
+        class="text-lg text-lime-500 font-bold hover:text-lime-500 transition"
+        >Motos</a
+      >
+      <a
+        href="/echobeacon"
+        class="text-lg text-white font-bold hover:text-lime-500 transition"
+        >Echo Beacons</a
+      >
+      <a
+        href="/profile"
+        class="text-lg text-white font-bold hover:text-lime-500 transition"
+        >Perfil</a
+      >
+    </header>
+    <main class="w-full max-w-xs mx-auto pt-24 pb-12">
+      <h1 class="text-2xl font-bold text-white mb-6 text-center">
+        Motos a trabalhar
+      </h1>
+
+      <section class="mb-8">
+        <a
+          href="/motos/novo"
+          class="w-full py-2 mb-4 rounded-full bg-lime-500 text-black font-bold text-lg hover:bg-lime-600 transition text-center block"
+        >
+          Adicionar Moto
+        </a>
+      </section>
+
+      <section class="mb-8">
+        <div class="bg-stone-800 rounded-t-lg px-4 py-2">
+          <span class="text-white font-bold text-lg"
+            >Na recepção/ pendente</span
+          >
+        </div>
+        <div class="space-y-4 bg-stone-900 px-4 py-4 rounded-b-lg">
+          <div
+            th:each="moto : ${motosRecepcao}"
+            class="bg-stone-700 rounded-lg p-4 flex items-center justify-between"
+          >
+            <div>
+              <div
+                class="text-white font-bold text-base"
+                th:text="${moto.modelo}"
+              >
+                Modelo
+              </div>
+              <div class="text-white text-sm" th:text="${moto.placa}">
+                Placa
+              </div>
+              <div class="text-white text-sm" th:text="${moto.chassi}">
+                Chassi
+              </div>
+              <div class="text-gray-300 text-sm" th:text="${moto.problema}">
+                Problema
+              </div>
+            </div>
+            <span class="text-white text-2xl">+</span>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="bg-stone-800 rounded-t-lg px-4 py-2">
+          <span class="text-white font-bold text-lg">No pátio</span>
+        </div>
+        <div class="space-y-4 bg-stone-900 px-4 py-4 rounded-b-lg">
+          <div
+            th:each="moto : ${motosPatio}"
+            class="bg-stone-700 rounded-lg p-4 flex items-center justify-between"
+          >
+            <div>
+              <div
+                class="text-white font-bold text-base"
+                th:text="${moto.modelo}"
+              >
+                Modelo
+              </div>
+              <div class="text-white text-sm" th:text="${moto.placa}">
+                Placa
+              </div>
+              <div class="text-white text-sm" th:text="${moto.chassi}">
+                Chassi
+              </div>
+              <div class="text-gray-300 text-sm" th:text="${moto.problema}">
+                Problema
+              </div>
+            </div>
+            <span class="text-white text-xl flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-map-pin"
+              >
+                <path
+                  d="M12 21s-6-5.686-6-10a6 6 0 1 1 12 0c0 4.314-6 10-6 10z"
+                />
+                <circle cx="12" cy="11" r="2" />
+              </svg>
+            </span>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer
+      class="bg-stone-900 text-white min-h-[17vh] py-8 text-center absolute inset-x-0 bottom-0"
+    >
+      <div>
+        <p>&copy; 2025 Echobeacon. Todos os direitos reservados.</p>
+      </div>
+    </footer>
+  </body>
+</html>
