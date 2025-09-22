@@ -189,14 +189,10 @@
       </div>
     </footer>
 
-    <!-- Script para controlar o modal -->
     <script>
       function showLoadingModal() {
         const modal = document.getElementById('loading_modal');
         modal.showModal();
-
-        // Simula um tempo de carregamento e fecha o modal após 3 segundos
-        // Em uma implementação real, isso seria substituído pela chamada à API real
         setTimeout(() => {
           modal.close();
         }, 3000);
