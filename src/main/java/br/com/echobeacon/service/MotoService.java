@@ -27,4 +27,7 @@ public class MotoService {
         return motoRepository.findById(id);
     }
 
+    public void excluir(Long id) {
+        motoRepository.deleteById(id);
+    }
 }

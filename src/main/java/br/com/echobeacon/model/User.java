@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,9 @@ public class User extends DefaultOAuth2User {
 
     private String picture;
 
+    @Column(name = "role")
+    private String role = "USER"; // Valor padrão: USER
+
     public User(OAuth2User principal) {
         super(
                 List.of(new SimpleGrantedAuthority("USER")),
@@ -37,6 +41,7 @@ public class User extends DefaultOAuth2User {
         this.email = principal.getAttribute("email");
         this.picture = principal.getAttribute("picture") != null ?
                 principal.getAttribute("picture").toString() : null;
+        this.role = "USER"; // Por padrão, todos os novos usuários são normais
     }
 
     public User() {
@@ -45,5 +50,14 @@ public class User extends DefaultOAuth2User {
                 Map.of("name", "unknown"),
                 "name"
         );
+        this.role = "USER";
+    }
+
+    public List<SimpleGrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + this.role));
+    }
+
+    public boolean isAdmin() {
+        return "ADMIN".equals(this.role);
     }
 }
