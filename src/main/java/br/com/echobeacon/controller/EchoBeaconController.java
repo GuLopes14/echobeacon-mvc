@@ -54,8 +54,14 @@ public class EchoBeaconController {
     }
 
     @PostMapping
-    public String salvarEchoBeacon(@ModelAttribute EchoBeacon echoBeacon) {
-        echoBeaconService.salvar(echoBeacon);
-        return "redirect:/echobeacon";
+    public String salvarEchoBeacon(@ModelAttribute EchoBeacon echoBeacon, Model model) {
+        try {
+            echoBeaconService.salvar(echoBeacon);
+            return "redirect:/echobeacon";
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            model.addAttribute("echoBeacon", echoBeacon);
+            model.addAttribute("erro", "Já existe um EchoBeacon com este número de identificação.");
+            return "cadastro-echobeacon";
+        }
     }
 }
