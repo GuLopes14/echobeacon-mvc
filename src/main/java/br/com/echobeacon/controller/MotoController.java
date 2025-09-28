@@ -3,6 +3,7 @@ package br.com.echobeacon.controller;
 import br.com.echobeacon.auth.AuthUtils;
 import br.com.echobeacon.model.Moto;
 import br.com.echobeacon.service.MotoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -45,7 +46,11 @@ public class MotoController {
     }
 
     @PostMapping
-    public String salvarMoto(@ModelAttribute Moto moto) {
+    public String salvarMoto(@Valid @ModelAttribute Moto moto, org.springframework.validation.BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("moto", moto);
+            return "cadastro-moto";
+        }
         motoService.salvar(moto);
         return "redirect:/motos";
     }
@@ -60,6 +65,9 @@ public class MotoController {
 
     @PostMapping("/editar/{id}")
     public String atualizarMoto(@PathVariable Long id, @ModelAttribute Moto moto) {
+        Moto motoOriginal = motoService.buscarPorId(id)
+            .orElseThrow(() -> new IllegalArgumentException("Moto inválida com id: " + id));
+        moto.setEchoBeacon(motoOriginal.getEchoBeacon());
         motoService.salvar(moto);
         return "redirect:/motos";
     }

@@ -53,55 +53,61 @@
         <div>
           <label class="block text-white text-lg mb-2" for="placa">Placa</label>
           <input
-            class="input input-bordered w-full bg-stone-700 text-white placeholder-gray-400"
-            id="placa"
-            th:field="*{placa}"
-            type="text"
-            placeholder="ABC1234"
-            required
+                  class="input input-bordered w-full bg-stone-700 text-white placeholder-gray-400"
+                  id="placa"
+                  th:field="*{placa}"
+                  type="text"
+                  placeholder="ABC1234"
+                  required
           />
+          <div th:if="${#fields.hasErrors('placa')}" class="text-red-500 text-sm mt-1">
+            <span th:errors="*{placa}"></span>
+          </div>
         </div>
         <div>
-          <label class="block text-white text-lg mb-2" for="chassi"
-            >Chassi</label
-          >
+          <label class="block text-white text-lg mb-2" for="chassi">Chassi</label>
           <input
-            class="input input-bordered w-full bg-stone-700 text-white placeholder-gray-400"
-            id="chassi"
-            th:field="*{chassi}"
-            type="text"
-            placeholder="Chassi"
-            required
+                  class="input input-bordered w-full bg-stone-700 text-white placeholder-gray-400"
+                  id="chassi"
+                  th:field="*{chassi}"
+                  type="text"
+                  placeholder="Chassi"
+                  required
           />
+          <div th:if="${#fields.hasErrors('chassi')}" class="text-red-500 text-sm mt-1">
+            <span th:errors="*{chassi}"></span>
+          </div>
         </div>
         <div>
-          <label class="block text-white text-lg mb-2" for="modelo"
-            >Modelo</label
-          >
+          <label class="block text-white text-lg mb-2" for="modelo">Modelo</label>
           <select
-            class="input input-bordered w-full bg-stone-700 text-white"
-            id="modelo"
-            th:field="*{modelo}"
+                  class="input input-bordered w-full bg-stone-700 text-white"
+                  id="modelo"
+                  th:field="*{modelo}"
           >
             <option
-              th:each="m : ${T(br.com.echobeacon.model.enums.Modelo).values()}"
-              th:value="${m}"
-              th:text="${m}"
+                    th:each="m : ${T(br.com.echobeacon.model.enums.Modelo).values()}"
+                    th:value="${m}"
+                    th:text="${m}"
             ></option>
           </select>
+          <div th:if="${#fields.hasErrors('modelo')}" class="text-red-500 text-sm mt-1">
+            <span th:errors="*{modelo}"></span>
+          </div>
         </div>
         <div>
-          <label class="block text-white text-lg mb-2" for="problema"
-            >Problema</label
-          >
+          <label class="block text-white text-lg mb-2" for="problema">Problema</label>
           <input
-            class="input input-bordered w-full bg-stone-700 text-white placeholder-gray-400"
-            id="problema"
-            th:field="*{problema}"
-            type="text"
-            placeholder="Descreva o problema"
-            required
+                  class="input input-bordered w-full bg-stone-700 text-white placeholder-gray-400"
+                  id="problema"
+                  th:field="*{problema}"
+                  type="text"
+                  placeholder="Descreva o problema"
+                  required
           />
+          <div th:if="${#fields.hasErrors('problema')}" class="text-red-500 text-sm mt-1">
+            <span th:errors="*{problema}"></span>
+          </div>
         </div>
         <button
           type="submit"
