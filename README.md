@@ -27,6 +27,9 @@ Essa solução visa resolver o problema de localizar rapidamente as motos no pá
 
 ---
 
+## 📽️ Vídeo de demonstração das funcionalidades do sistema: [Clique aqui](https://www.youtube.com/watch?v=-w6mVJg-em0)
+
+---
 ## 🎯 Objetivo
 
 - **Facilitar a localização de motos no pátio da empresa.**
@@ -172,7 +175,7 @@ Usuários configurados na variável `ADMIN_EMAILS` terão privilégios administr
 
 ---
 
-## �🗃️ Banco de Dados
+## 🗃️ Banco de Dados
 
 A aplicação utiliza **PostgreSQL** e o **Flyway** para migração automática do banco de dados. As migrações estão localizadas em:
 ```
