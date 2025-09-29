@@ -44,6 +44,9 @@
       <h1 class="text-2xl font-bold text-white mb-6 text-center">
         Cadastro de Moto
       </h1>
+      <div th:if="${errorMessage}" class="text-red-500 text-center mb-4">
+        <span th:text="${errorMessage}"></span>
+      </div>
       <form
         th:action="@{/motos}"
         th:object="${moto}"

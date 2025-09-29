@@ -42,6 +42,9 @@
     </h1>
 
     <form th:action="@{/motos/editar/{id}(id=${moto.id})}" method="post" class="space-y-6" th:object="${moto}">
+      <div th:if="${errorMessage}" class="text-red-500 text-center mb-4">
+        <span th:text="${errorMessage}"></span>
+      </div>
       <input type="hidden" th:field="*{id}" />
 
       <div>

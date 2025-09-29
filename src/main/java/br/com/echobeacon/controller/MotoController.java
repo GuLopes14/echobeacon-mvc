@@ -51,7 +51,13 @@ public class MotoController {
             model.addAttribute("moto", moto);
             return "cadastro-moto";
         }
-        motoService.salvar(moto);
+        try {
+            motoService.salvar(moto);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("moto", moto);
+            model.addAttribute("errorMessage", e.getMessage());
+            return "cadastro-moto";
+        }
         return "redirect:/motos";
     }
 
@@ -64,10 +70,23 @@ public class MotoController {
     }
 
     @PostMapping("/editar/{id}")
-    public String atualizarMoto(@PathVariable Long id, @ModelAttribute Moto moto) {
+    public String atualizarMoto(@PathVariable Long id, @ModelAttribute Moto moto, Model model) {
         Moto motoOriginal = motoService.buscarPorId(id)
             .orElseThrow(() -> new IllegalArgumentException("Moto inválida com id: " + id));
         moto.setEchoBeacon(motoOriginal.getEchoBeacon());
+        // Prevent changing placa to an existing one (except for itself)
+        boolean placaDuplicada = !motoOriginal.getPlaca().equals(moto.getPlaca()) && motoService.listarTodos().stream().anyMatch(m -> m.getPlaca().equals(moto.getPlaca()));
+        boolean chassiDuplicado = !motoOriginal.getChassi().equals(moto.getChassi()) && motoService.listarTodos().stream().anyMatch(m -> m.getChassi().equals(moto.getChassi()));
+        if (placaDuplicada) {
+            model.addAttribute("moto", moto);
+            model.addAttribute("errorMessage", "Já existe uma moto com esta placa.");
+            return "editar-moto";
+        }
+        if (chassiDuplicado) {
+            model.addAttribute("moto", moto);
+            model.addAttribute("errorMessage", "Já existe uma moto com este chassi.");
+            return "editar-moto";
+        }
         motoService.salvar(moto);
         return "redirect:/motos";
     }

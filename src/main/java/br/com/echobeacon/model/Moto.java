@@ -23,10 +23,12 @@ public class Moto {
 
     @NotBlank(message = "O campo 'placa' é obrigatório")
     @Size(min = 7, max = 7, message = "O campo 'placa' deve ter 7 caracteres")
+    @Column(unique = true)
     private String placa;
 
     @NotBlank(message = "O campo 'chassi' é obrigatório")
     @Size(min = 17, max = 17, message = "O campo 'chassi' deve ter 17 caracteres")
+    @Column(unique = true)
     private String chassi;
 
     @Enumerated(EnumType.STRING)

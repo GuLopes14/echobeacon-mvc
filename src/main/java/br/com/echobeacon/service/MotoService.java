@@ -16,6 +16,12 @@ public class MotoService {
     private MotoRepository motoRepository;
 
     public Moto salvar(Moto moto) {
+        if (motoRepository.findByPlaca(moto.getPlaca()).isPresent()) {
+            throw new IllegalArgumentException("Já existe uma moto com esta placa.");
+        }
+        if (motoRepository.findByChassi(moto.getChassi()).isPresent()) {
+            throw new IllegalArgumentException("Já existe uma moto com este chassi.");
+        }
         return motoRepository.save(moto);
     }
 
