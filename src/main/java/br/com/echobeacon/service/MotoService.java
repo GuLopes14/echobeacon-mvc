@@ -16,10 +16,18 @@ public class MotoService {
     private MotoRepository motoRepository;
 
     public Moto salvar(Moto moto) {
-        if (motoRepository.findByPlaca(moto.getPlaca()).isPresent()) {
+        // Evitar duplicidade considerando atualizações: permite a própria moto manter seus valores
+        boolean placaDuplicada = motoRepository.findByPlaca(moto.getPlaca())
+                .filter(existing -> moto.getId() == null || !existing.getId().equals(moto.getId()))
+                .isPresent();
+        if (placaDuplicada) {
             throw new IllegalArgumentException("Já existe uma moto com esta placa.");
         }
-        if (motoRepository.findByChassi(moto.getChassi()).isPresent()) {
+
+        boolean chassiDuplicado = motoRepository.findByChassi(moto.getChassi())
+                .filter(existing -> moto.getId() == null || !existing.getId().equals(moto.getId()))
+                .isPresent();
+        if (chassiDuplicado) {
             throw new IllegalArgumentException("Já existe uma moto com este chassi.");
         }
         return motoRepository.save(moto);

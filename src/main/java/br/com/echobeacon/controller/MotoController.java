@@ -1,23 +1,36 @@
 package br.com.echobeacon.controller;
 
-import br.com.echobeacon.auth.AuthUtils;
-import br.com.echobeacon.model.Moto;
-import br.com.echobeacon.service.MotoService;
-import jakarta.validation.Valid;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+import br.com.echobeacon.auth.AuthUtils;
+import br.com.echobeacon.model.Moto;
+import br.com.echobeacon.mqtt.MqttPublisher;
+import br.com.echobeacon.service.MotoService;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/motos")
 public class MotoController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(MotoController.class);
+
     @Autowired
     private MotoService motoService;
+
+    @Autowired
+    private MqttPublisher mqttPublisher;
 
     @GetMapping
     public String listarMotos(Model model, Authentication authentication) {
@@ -94,6 +107,25 @@ public class MotoController {
     @GetMapping("/excluir/{id}")
     public String excluirMoto(@PathVariable Long id) {
         motoService.excluir(id);
+        return "redirect:/motos";
+    }
+
+    @PostMapping("/localizar/{id}")
+    public String localizarMoto(@PathVariable Long id) {
+        Moto moto = motoService.buscarPorId(id)
+                .orElseThrow(() -> new IllegalArgumentException("Moto inválida com id: " + id));
+
+        if (moto.getEchoBeacon() != null && moto.getEchoBeacon().getId() != null) {
+            int echoBeaconNumero = moto.getEchoBeacon().getNumeroIdentificacao();
+            String echoBeaconId = String.valueOf(echoBeaconNumero);
+
+            LOGGER.info("Publicando comando MQTT 'ativar' para EchoBeacon {} (moto {} - placa {})",
+                    echoBeaconId, id, moto.getPlaca());
+            mqttPublisher.publishAtivar(echoBeaconId, moto);
+        } else {
+            LOGGER.warn("Moto {} não possui EchoBeacon associado para envio de comando.", id);
+        }
+
         return "redirect:/motos";
     }
 }

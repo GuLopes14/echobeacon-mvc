@@ -142,27 +142,20 @@
                   Problema
                 </div>
               </div>
-              <button
-                class="text-white text-xl flex items-center location-btn hover:text-lime-500 transition"
-                onclick="showLoadingModal()"
+              <form
+                th:if="${moto.echoBeacon != null}"
+                th:action="@{/motos/localizar/{id}(id=${moto.id})}"
+                method="post"
+                style="display: inline;"
+                onsubmit="showLoadingModal()"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="lucide lucide-map-pin"
-                >
-                  <path
-                    d="M12 21s-6-5.686-6-10a6 6 0 1 1 12 0c0 4.314-6 10-6 10z"
-                  />
-                  <circle cx="12" cy="11" r="2" />
-                </svg>
-              </button>
+                <input
+                  type="hidden"
+                  th:name="${_csrf.parameterName}"
+                  th:value="${_csrf.token}"
+                />
+                <button type="submit" class="text-xs text-black font-bold bg-lime-500 p-1 rounded transition">Localizar Moto</button>
+              </form>
             </div>
 
             <!-- Opções de Admin -->
