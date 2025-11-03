@@ -47,3 +47,8 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+bootJar {
+	mainClass = 'br.com.echobeacon.EchobeaconApplication'
+	archiveFileName = 'app.jar'
+}

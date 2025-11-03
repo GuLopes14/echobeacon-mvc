@@ -1,0 +1,58 @@
+services:
+  - type: web
+    name: echobeacon-mvc
+    env: java
+    region: oregon
+    plan: starter
+    
+    # Build Configuration
+    buildCommand: ./gradlew clean build -x test
+    startCommand: java -Dserver.port=$PORT $JAVA_OPTS -jar build/libs/*.jar
+    
+    # Environment Variables
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        scope: run
+        value: ${DATABASE_URL}
+      - key: SPRING_DATASOURCE_USERNAME
+        scope: run
+        value: ${DB_USER}
+      - key: SPRING_DATASOURCE_PASSWORD
+        scope: run
+        value: ${DB_PASSWORD}
+      - key: GOOGLE_CLIENT_ID
+        scope: run
+        value: ${GOOGLE_CLIENT_ID}
+      - key: GOOGLE_CLIENT_SECRET
+        scope: run
+        value: ${GOOGLE_CLIENT_SECRET}
+      - key: ADMIN_EMAILS
+        scope: run
+        value: ${ADMIN_EMAILS}
+      - key: MQTT_BROKER_URL
+        scope: run
+        value: ${MQTT_BROKER_URL}
+      - key: MQTT_CLIENT_ID
+        scope: run
+        value: ${MQTT_CLIENT_ID}
+      - key: MQTT_TOPIC
+        scope: run
+        value: ${MQTT_TOPIC}
+      - key: JAVA_TOOL_OPTIONS
+        scope: run
+        value: -Xmx512m -Xms256m
+    
+    # Autoscaling
+    autoDeploy: true
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1
+    
+  - type: pserv
+    name: echobeacon-postgres
+    ipAllowList: [] # Allow all
+    plan: starter
+    postgresVersion: 15
+    initialDatabase: echobeacon
+    user: postgres
