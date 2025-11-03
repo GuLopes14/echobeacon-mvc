@@ -10,6 +10,9 @@ COPY gradle/ ./gradle/
 # Copy source code
 COPY src/ ./src/
 
+# Give execute permission to gradlew
+RUN chmod +x ./gradlew
+
 # Build the application
 RUN ./gradlew clean build -x test --no-daemon
 
